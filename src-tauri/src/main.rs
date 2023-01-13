@@ -3,15 +3,19 @@
   windows_subsystem = "windows"
 )]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+use raytracer::render;
+use raytracer::scene::Scene;
+
 #[tauri::command]
-fn greet(name: &str) -> String {
-  format!("Hello, {}! You've been greeted from Rust!", name)
+fn generate(scene_json: &str) -> Vec<u8> {
+  let scene: Scene = serde_json::from_str(scene_json).unwrap();
+
+  render(&scene)
 }
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![greet])
+    .invoke_handler(tauri::generate_handler![generate])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

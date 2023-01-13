@@ -265,6 +265,9 @@ impl Light {
 pub struct Scene {
   pub width: u32,
   pub height: u32,
+  pub x_offset: u32,
+  pub y_offset: u32,
+
   pub fov: f64,
   pub elements: Vec<Element>,
   pub lights: Vec<Light>,

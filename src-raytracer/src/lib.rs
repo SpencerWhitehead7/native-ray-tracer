@@ -9,36 +9,27 @@ mod rendering;
 pub mod scene;
 pub mod vector;
 
-use image::{DynamicImage, GenericImage, ImageBuffer, Rgba};
+use std::convert::TryInto;
+
 use scene::Scene;
 
 use rendering::{cast_ray, Ray};
 
-#[repr(C)]
-#[derive(Debug)]
-pub struct ViewBlock {
-  pub x: u32,
-  pub y: u32,
-  pub width: u32,
-  pub height: u32,
-}
+pub fn render(scene: &Scene) -> Vec<u8> {
+  let pixel_count = scene.height * scene.width;
 
-pub fn render(block: &ViewBlock, scene: &Scene) -> DynamicImage {
-  let mut image = DynamicImage::new_rgb8(block.width, block.height);
-  for y in 0..block.height {
-    for x in 0..block.width {
-      let ray = Ray::create_prime(x + block.x, y + block.y, scene);
-      image.put_pixel(x, y, cast_ray(scene, &ray, 0).to_rgba());
+  let mut pixel_data: Vec<u8> = vec![255; (pixel_count * 4).try_into().unwrap()];
+
+  for y in 0..scene.height {
+    for x in 0..scene.width {
+      let ray = Ray::create_prime(x + scene.x_offset, y + scene.y_offset, scene);
+      let rgba = cast_ray(scene, &ray, 0).to_rgba();
+      let i = ((y * scene.width) + x) as usize;
+      pixel_data[i * 4] = rgba[0];
+      pixel_data[i * 4 + 1] = rgba[1];
+      pixel_data[i * 4 + 2] = rgba[2];
     }
   }
-  image
-}
 
-pub fn render_into(block: &ViewBlock, scene: &Scene, image: &mut ImageBuffer<Rgba<u8>, &mut [u8]>) {
-  for y in 0..block.height {
-    for x in 0..block.width {
-      let ray = Ray::create_prime(x + block.x, y + block.y, scene);
-      image.put_pixel(x, y, cast_ray(scene, &ray, 0).to_rgba());
-    }
-  }
+  pixel_data
 }
