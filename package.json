@@ -1,7 +1,17 @@
 {
   "name": "native-ray-tracer",
   "version": "0.0.0",
-  "description": "",
+  "description": "frontend for native ray tracing app",
+  "author": "Spencer Whitehead",
+  "license": "Unlicense",
+  "homepage": "https://github.com/SpencerWhitehead7/native-ray-tracer#readme",
+  "bugs": {
+    "url": "https://github.com/SpencerWhitehead7/native-ray-tracer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpencerWhitehead7/native-ray-tracer.git"
+  },
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -9,7 +19,6 @@
     "serve": "vite preview",
     "tauri": "tauri"
   },
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.7.10",
     "typescript": "^4.7.4",

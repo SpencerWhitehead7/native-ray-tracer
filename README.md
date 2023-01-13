@@ -1,7 +1,3 @@
-# Tauri + Solid + Typescript
+# Ray Tracer
 
-This template should help get you started developing with Tauri, Solid and Typescript in Vite.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Native, cross platform app for ray tracing in [rust](https://www.rust-lang.org/) via [Tauri](https://tauri.app/) and [Solid](https://www.solidjs.com/).
