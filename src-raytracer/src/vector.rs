@@ -22,7 +22,7 @@ impl Vector3 {
   }
 
   pub fn norm(&self) -> f64 {
-    (self.x * self.x + self.y * self.y + self.z * self.z)
+    self.x * self.x + self.y * self.y + self.z * self.z
   }
 
   pub fn normalize(&self) -> Vector3 {
@@ -46,9 +46,9 @@ impl Vector3 {
     }
   }
 
-  pub fn deserialize_normalized<D>(deserializer: D) -> Result<Vector3, D::Error>
+  pub fn deserialize_normalized<'a, D>(deserializer: D) -> Result<Vector3, D::Error>
   where
-    D: Deserializer,
+    D: Deserializer<'a>,
   {
     let v3 = Vector3::deserialize(deserializer)?;
     Ok(v3.normalize())

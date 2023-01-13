@@ -1,5 +1,5 @@
 use image;
-use image::{DynamicImage, GenericImage, Pixel, Rgba};
+use image::{DynamicImage, Rgba};
 use point::Point;
 use rendering::{Intersectable, Ray, TextureCoords};
 use serde::{Deserialize, Deserializer};
@@ -35,19 +35,19 @@ impl Color {
   }
 
   pub fn to_rgba(&self) -> Rgba<u8> {
-    Rgba::from_channels(
+    Rgba([
       (gamma_encode(self.red) * 255.0) as u8,
       (gamma_encode(self.green) * 255.0) as u8,
       (gamma_encode(self.blue) * 255.0) as u8,
       255,
-    )
+    ])
   }
 
   pub fn from_rgba(rgba: Rgba<u8>) -> Color {
     Color {
-      red: gamma_decode((rgba.data[0] as f32) / 255.0),
-      green: gamma_decode((rgba.data[1] as f32) / 255.0),
-      blue: gamma_decode((rgba.data[2] as f32) / 255.0),
+      red: gamma_decode((rgba[0] as f32) / 255.0),
+      green: gamma_decode((rgba[1] as f32) / 255.0),
+      blue: gamma_decode((rgba[2] as f32) / 255.0),
     }
   }
 }
@@ -105,9 +105,9 @@ impl fmt::Debug for Texture {
     write!(f, "Texture({:?})", self.path)
   }
 }
-fn load_texture<D>(deserializer: D) -> Result<Texture, D::Error>
+fn load_texture<'a, D>(deserializer: D) -> Result<Texture, D::Error>
 where
-  D: Deserializer,
+  D: Deserializer<'a>,
 {
   let texture = Texture::deserialize(deserializer)?;
   if let Ok(img) = image::open(texture.path.clone()) {
@@ -148,7 +148,11 @@ impl Coloration {
         let tex_x = wrap(coords.x, texture.texture.width());
         let tex_y = wrap(coords.y, texture.texture.height());
 
-        Color::from_rgba(texture.texture.get_pixel(tex_x, tex_y))
+        Color::from_rgba(image::GenericImageView::get_pixel(
+          &texture.texture,
+          tex_x,
+          tex_y,
+        ))
       }
     }
   }
