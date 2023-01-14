@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+  border-right: 1px solid lightblue;
+  padding: 16px;
+  overflow-y: scroll;
+}
+
+.controls label {
+  display: block;
+  width: 240px;
+}
+
+.controls > * {
+  margin-bottom: 16px;
+}
+.controls > *:last-child {
+  margin-bottom: unset;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: darkgray;
+}
+
+.loading {
+  border: 16px solid white;
+  border-top: 16px solid blue;
+  border-radius: 50%;
+  width: 128px;
+  height: 128px;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
