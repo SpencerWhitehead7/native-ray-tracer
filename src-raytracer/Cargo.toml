@@ -4,6 +4,7 @@ version = "1.0.0"
 authors = ["Brook Heisler <redattack34@gmail.com>"]
 
 [dependencies]
+rayon = "1.0"
 serde = "1.0"
 serde_derive = "1.0"
 image = "0.24.0"

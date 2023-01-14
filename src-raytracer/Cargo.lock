@@ -429,6 +429,7 @@ name = "raytracer"
 version = "1.0.0"
 dependencies = [
  "image",
+ "rayon",
  "serde",
  "serde_derive",
 ]

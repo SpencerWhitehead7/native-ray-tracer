@@ -34,6 +34,15 @@ impl Color {
     }
   }
 
+  pub fn to_arr(&self) -> [u8; 4] {
+    [
+      (gamma_encode(self.red) * 255.0) as u8,
+      (gamma_encode(self.green) * 255.0) as u8,
+      (gamma_encode(self.blue) * 255.0) as u8,
+      255,
+    ]
+  }
+
   pub fn to_rgba(&self) -> Rgba<u8> {
     Rgba([
       (gamma_encode(self.red) * 255.0) as u8,

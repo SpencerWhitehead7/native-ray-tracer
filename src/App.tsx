@@ -10,9 +10,11 @@ export const App = () => {
     ctx.canvas.width = w;
     ctx.canvas.height = h;
 
+    const start = performance.now();
     const imageDataValues = (await invoke("generate", {
       sceneJson: JSON.stringify(test_json),
     })) as number[];
+    console.log("time::", performance.now() - start);
     const imageData = new Uint8ClampedArray(imageDataValues);
     ctx.putImageData(new ImageData(imageData, w, h), 0, 0);
   };
