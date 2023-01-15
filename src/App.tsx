@@ -1,8 +1,10 @@
-import { createSignal, Show } from "solid-js";
+import { For, Show, createSignal, createEffect } from "solid-js";
 import { invoke } from "@tauri-apps/api/tauri";
 
-import { Scene } from "./sceneTypes";
+import { PlaneC, Scene, SphereC } from "./sceneTypes";
+
 import { NumberInput } from "./Inputs";
+import { SElementEditor } from "./Editors";
 
 import "./app.css";
 
@@ -104,6 +106,28 @@ export const App = () => {
           min={String(MIN_RECURSION_DEPTH)}
           max={String(MAX_RECURSION_DEPTH)}
         />
+
+        <h2>Elements</h2>
+
+        <h3>Spheres</h3>
+
+        <For each={scene().elements} fallback="No spheres created">
+          {(ele, i) =>
+            (ele as SphereC).Sphere !== undefined ? (
+              <SElementEditor sElement={ele} i={i()} setScene={setScene} />
+            ) : null
+          }
+        </For>
+
+        <h3>Planes</h3>
+
+        <For each={scene().elements} fallback="No planes created">
+          {(ele, i) =>
+            (ele as PlaneC).Plane !== undefined ? (
+              <SElementEditor sElement={ele} i={i()} setScene={setScene} />
+            ) : null
+          }
+        </For>
 
         <button
           type="submit"
