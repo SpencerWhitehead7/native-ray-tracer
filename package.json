@@ -1,6 +1,6 @@
 {
   "name": "native-ray-tracer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "frontend for native ray tracing app",
   "author": "Spencer Whitehead",
   "license": "Unlicense",

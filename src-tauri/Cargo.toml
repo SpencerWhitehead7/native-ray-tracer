@@ -1,6 +1,6 @@
 [package]
 name = "native-ray-tracer"
-version = "0.0.0"
+version = "0.0.1"
 description = "backend for native ray tracing app"
 authors = ["spencer whitehead"]
 license = "Unlicense"

@@ -1458,7 +1458,7 @@ dependencies = [
 
 [[package]]
 name = "native-ray-tracer"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "raytracer",
  "serde",
