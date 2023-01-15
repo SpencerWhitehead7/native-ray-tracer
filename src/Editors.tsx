@@ -4,6 +4,7 @@ import {
   Color,
   Coloration,
   ColorC,
+  DirectionalC,
   Material,
   PlaneC,
   Point,
@@ -13,7 +14,9 @@ import {
   RefractiveC,
   Scene,
   SElement,
+  SLight,
   SphereC,
+  SphericalC,
   SurfaceType,
   Texture,
   TextureC,
@@ -144,6 +147,144 @@ export const SElementEditor: Component<SElementEditorProps> = (p) => {
                 },
               }));
             }}
+          />
+        </Match>
+      </Switch>
+
+      <button type="button" onClick={onEnterExitEditMode}>
+        {isEditMode() ? "Cancel" : "Edit"}
+      </button>
+      <button type="button" onClick={onSaveDelete}>
+        {isEditMode() ? "Save" : "Delete"}
+      </button>
+    </div>
+  );
+};
+
+type SLightEditorProps = {
+  sLight: SLight;
+  i: number;
+  setScene: Setter<Scene>;
+};
+
+export const SLightEditor: Component<SLightEditorProps> = (p) => {
+  const [sLight, setSLight] = createSignal(p.sLight);
+  const [isEditMode, setIsEditMode] = createSignal(false);
+  const toggleEditMode = () => setIsEditMode((isE) => !isE);
+
+  const onSaveDelete = () => {
+    if (isEditMode()) {
+      p.setScene((s) => ({
+        ...s,
+        lights: [
+          ...s.lights.slice(0, p.i),
+          sLight(),
+          ...s.lights.slice(p.i + 1),
+        ],
+      }));
+    } else {
+      p.setScene((s) => ({
+        ...s,
+        lights: [...s.lights.slice(0, p.i), ...s.lights.slice(p.i + 1)],
+      }));
+    }
+
+    toggleEditMode();
+  };
+
+  const onEnterExitEditMode = () => {
+    if (isEditMode()) setSLight(p.sLight);
+
+    toggleEditMode();
+  };
+
+  return (
+    <div>
+      <Switch>
+        <Match when={(sLight() as DirectionalC).Directional !== undefined}>
+          <XYZEditor
+            point={(sLight() as DirectionalC).Directional.direction}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: Vector3) => {
+              setSLight((s) => ({
+                ...s,
+                Directional: {
+                  ...(s as DirectionalC).Directional,
+                  direction: updatedVal,
+                },
+              }));
+            }}
+            fieldName="Center"
+          />
+          <ColorEditor
+            color={(sLight() as DirectionalC).Directional.color}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: Color) => {
+              setSLight((s) => ({
+                ...s,
+                Directional: {
+                  ...(s as DirectionalC).Directional,
+                  color: updatedVal,
+                },
+              }));
+            }}
+          />
+          <NumberEditor
+            number={(sLight() as DirectionalC).Directional.intensity}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: number) => {
+              setSLight((s) => ({
+                ...s,
+                Directional: {
+                  ...(s as DirectionalC).Directional,
+                  intensity: updatedVal,
+                },
+              }));
+            }}
+            fieldName="Intensity"
+          />
+        </Match>
+        <Match when={(sLight() as SphericalC).Spherical !== undefined}>
+          <XYZEditor
+            point={(sLight() as SphericalC).Spherical.position}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: Point) => {
+              setSLight((s) => ({
+                ...s,
+                Plane: {
+                  ...(s as SphericalC).Spherical,
+                  position: updatedVal,
+                },
+              }));
+            }}
+            fieldName="Position"
+          />
+          <ColorEditor
+            color={(sLight() as SphericalC).Spherical.color}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: Color) => {
+              setSLight((s) => ({
+                ...s,
+                Spherical: {
+                  ...(s as SphericalC).Spherical,
+                  color: updatedVal,
+                },
+              }));
+            }}
+          />
+          <NumberEditor
+            number={(sLight() as SphericalC).Spherical.intensity}
+            isEditMode={isEditMode()}
+            onChange={(updatedVal: number) => {
+              setSLight((s) => ({
+                ...s,
+                Spherical: {
+                  ...(s as SphericalC).Spherical,
+                  intensity: updatedVal,
+                },
+              }));
+            }}
+            fieldName="Intensity"
           />
         </Match>
       </Switch>

@@ -1,10 +1,10 @@
 import { For, Show, createSignal, createEffect } from "solid-js";
 import { invoke } from "@tauri-apps/api/tauri";
 
-import { PlaneC, Scene, SphereC } from "./sceneTypes";
+import { DirectionalC, PlaneC, Scene, SphereC, SphericalC } from "./sceneTypes";
 
 import { NumberInput } from "./Inputs";
-import { SElementEditor } from "./Editors";
+import { SElementEditor, SLightEditor } from "./Editors";
 
 import "./app.css";
 
@@ -29,6 +29,8 @@ export const App = () => {
   const [scene, setScene] = createSignal<Scene>(testJson);
   const [isGenerating, setIsGenerating] = createSignal(false);
   const toggleIsGenerating = () => setIsGenerating((isG) => !isG);
+
+  createEffect(() => console.log(scene()));
 
   const generateImage = async () => {
     toggleIsGenerating();
@@ -125,6 +127,28 @@ export const App = () => {
           {(ele, i) =>
             (ele as PlaneC).Plane !== undefined ? (
               <SElementEditor sElement={ele} i={i()} setScene={setScene} />
+            ) : null
+          }
+        </For>
+
+        <h2>Lighting</h2>
+
+        <h3>Directional</h3>
+
+        <For each={scene().lights} fallback="No lights created">
+          {(ele, i) =>
+            (ele as DirectionalC).Directional !== undefined ? (
+              <SLightEditor sLight={ele} i={i()} setScene={setScene} />
+            ) : null
+          }
+        </For>
+
+        <h3>Spherical</h3>
+
+        <For each={scene().lights} fallback="No lights created">
+          {(ele, i) =>
+            (ele as SphericalC).Spherical !== undefined ? (
+              <SLightEditor sLight={ele} i={i()} setScene={setScene} />
             ) : null
           }
         </For>
