@@ -1,7 +1,17 @@
 import { For, Show, createSignal, createEffect } from "solid-js";
 import { invoke } from "@tauri-apps/api/tauri";
 
-import { DirectionalC, PlaneC, Scene, SphereC, SphericalC } from "./sceneTypes";
+import {
+  DirectionalC,
+  newDirectionalC,
+  newPlaneC,
+  newSphereC,
+  newSphericalC,
+  PlaneC,
+  Scene,
+  SphereC,
+  SphericalC,
+} from "./sceneTypes";
 
 import { NumberInput } from "./Inputs";
 import { SElementEditor, SLightEditor } from "./Editors";
@@ -120,6 +130,17 @@ export const App = () => {
             ) : null
           }
         </For>
+        <button
+          type="button"
+          onClick={() => {
+            setScene((s) => ({
+              ...s,
+              elements: [...s.elements, newSphereC()],
+            }));
+          }}
+        >
+          Add Sphere
+        </button>
 
         <h3>Planes</h3>
 
@@ -130,6 +151,17 @@ export const App = () => {
             ) : null
           }
         </For>
+        <button
+          type="button"
+          onClick={() => {
+            setScene((s) => ({
+              ...s,
+              elements: [...s.elements, newPlaneC()],
+            }));
+          }}
+        >
+          Add Plane
+        </button>
 
         <h2>Lighting</h2>
 
@@ -142,6 +174,17 @@ export const App = () => {
             ) : null
           }
         </For>
+        <button
+          type="button"
+          onClick={() => {
+            setScene((s) => ({
+              ...s,
+              lights: [...s.lights, newDirectionalC()],
+            }));
+          }}
+        >
+          Add Directional
+        </button>
 
         <h3>Spherical</h3>
 
@@ -152,6 +195,17 @@ export const App = () => {
             ) : null
           }
         </For>
+        <button
+          type="button"
+          onClick={() => {
+            setScene((s) => ({
+              ...s,
+              lights: [...s.lights, newSphericalC()],
+            }));
+          }}
+        >
+          Add Spherical
+        </button>
 
         <button
           type="submit"

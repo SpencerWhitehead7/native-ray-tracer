@@ -104,3 +104,46 @@ export type SphericalC = {
     intensity: number; // f32
   };
 };
+
+export const newSphereC = (): SphereC => ({
+  Sphere: {
+    center: newXYZ(),
+    radius: 1,
+    material: newMaterial(),
+  },
+});
+
+export const newPlaneC = (): PlaneC => ({
+  Plane: {
+    origin: newXYZ(),
+    normal: newXYZ(),
+    material: newMaterial(),
+  },
+});
+
+export const newDirectionalC = (): DirectionalC => ({
+  Directional: {
+    direction: newXYZ(),
+    color: newColor(),
+    intensity: 1,
+  },
+});
+
+export const newSphericalC = (): SphericalC => ({
+  Spherical: {
+    position: newXYZ(),
+    color: newColor(),
+    intensity: 1,
+  },
+});
+
+const newXYZ = (): Point | Vector3 => ({ x: 0, y: 0, z: 0 });
+const newMaterial = (): Material => ({
+  coloration: newColorC(),
+  albedo: 1,
+  surface: newSurface(),
+});
+
+const newColor = (): Color => ({ red: 0, green: 0, blue: 0 });
+const newColorC = (): ColorC => ({ Color: newColor() });
+const newSurface = (): SurfaceType => "Diffuse";
