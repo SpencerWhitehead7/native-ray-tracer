@@ -1,10 +1,19 @@
-import { Setter, Component, createSignal, For, Switch, Match } from "solid-js";
+import {
+  Setter,
+  Component,
+  createSignal,
+  For,
+  Switch,
+  Match,
+  createMemo,
+} from "solid-js";
 
 import {
   Color,
   Coloration,
   ColorC,
   DirectionalC,
+  getName,
   Material,
   PlaneC,
   Point,
@@ -20,6 +29,7 @@ import {
   SurfaceType,
   Texture,
   TextureC,
+  TEXTURES,
   Vector3,
 } from "./sceneTypes";
 
@@ -501,19 +511,25 @@ const TextureEditor: Component<TextureEditorProps> = (p) => (
     <p>Texture:</p>
     {p.isEditMode ? (
       <label>
-        <input // TODO: Dropdown of all possible textures
-          type="string"
+        <select
+          name="texture"
           value={p.texture.path}
-          onChange={(e) => {
+          onInput={(e) => {
             p.onChange({
               ...p.texture,
               path: e.currentTarget.value,
             });
           }}
-        />
+        >
+          <For each={TEXTURES}>
+            {(texture, i) => (
+              <option value={texture}>{getName(texture)}</option>
+            )}
+          </For>
+        </select>
       </label>
     ) : (
-      <p>{p.texture.path.split("/").at(-1)?.split(".")?.at(0)}</p>
+      <p>{getName(p.texture.path)}</p>
     )}
   </div>
 );

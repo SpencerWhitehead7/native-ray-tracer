@@ -147,3 +147,10 @@ const newMaterial = (): Material => ({
 const newColor = (): Color => ({ red: 0, green: 0, blue: 0 });
 const newColorC = (): ColorC => ({ Color: newColor() });
 const newSurface = (): SurfaceType => "Diffuse";
+
+export const TEXTURES = ["blue", "checkerboard", "flower", "leaf", "tile"].map(
+  (name) => `assets/${name}.png`
+);
+
+export const getName = (name: string) =>
+  name.split("/").at(-1)?.split(".")?.at(0);
